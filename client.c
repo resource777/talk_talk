@@ -19,7 +19,10 @@ int	main(int argc, char *argv[])
 	int	i;
 
 	if (argc != 3)
+	{
+		ft_putstr_fd("Usage : ./client [serverPID] [string]\n", 1);
 		return (0);
+	}
 	serverPID = ft_atoi(argv[1]);
 	if (!(serverPID > 100 && serverPID < 100000))
 		return (0);
@@ -49,9 +52,9 @@ void	formatWord(char word, int serverPID)
 	return ;
 }
 
-void	sendSignal(int sig, int serverPID)
+void	sendSignal(int bit, int serverPID)
 {
-	if (sig)
+	if (bit)
 		kill(serverPID, SIGUSR2);
 	else
 		kill(serverPID, SIGUSR1);

@@ -12,47 +12,44 @@
 
 #include "minitalk.h"
 
-static int	ft_isspace(char c)
+int	ft_isspace(char c)
 {
 	if (c == '\n' || c == '\t' || c == '\f' || c == '\r' || c == '\v'
 		|| c == ' ')
-	{
 		return (1);
-	}
 	return (0);
 }
 
-static void	ft_deletespace(char const *str, int *index)
+void	ft_deletespace(char const *s, int *i)
 {
-	while (ft_isspace(str[*index]) == 1)
-		(*index)++;
+	while (ft_isspace(s[*i]))
+		(*i)++;
 }
 
-int	ft_atoi(char const *str)
+int	ft_atoi(char const *s)
 {
 	int	res;
-	int	index;
+	int	i;
 	int	minus;
-	int	middle;
+	int	digit;
 
 	res = 0;
-	index = 0;
+	i = 0;
 	minus = 1;
-	middle = 1;
-	ft_deletespace(str, &index);
-	if (str[index] == '-')
+	ft_deletespace(s, &i);
+	if (s[i] == '-')
 	{
 		minus = -1;
-		index++;
+		i++;
 	}
-	else if (str[index] == '+')
-		index++;
-	while (str[index] != '\0')
+	else if (s[i] == '+')
+		i++;
+	while (s[i] != '\0')
 	{
-		if (!(str[index] >= '0' && str[index] <= '9'))
+		if (!(s[i] >= '0' && s[i] <= '9'))
 			break ;
-		middle = str[index++] - '0';
-		res = res * 10 + middle;
+		digit = s[i++] - '0';
+		res = res * 10 + digit;
 	}
 	return (res * minus);
 }

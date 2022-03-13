@@ -18,32 +18,31 @@ int	main(void)
 	serverPID = getpid();
 	if (serverPID)
 	{
+		ft_putstr_fd("serverPID : ", 1);
 		ft_putnbr_fd(serverPID, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	signal(SIGUSR1, signalHandler);
-	signal(SIGUSR2, signalHandler);
+	signal(SIGUSR1, handler);
+	signal(SIGUSR2, handler);
 	while (1)
 		pause();
 	return (0);
 }
 
-void	signalHandler(int sigNum)
+void	handler(int sig)
 {
 	static char	receive = 0;
-	static int	idx = 0;
+	static int	sendedBit = 0;
 
 	receive <<= 1;
-	if (sigNum == SIGUSR1)
-		receive += 0;
-	else
+	if (sig == SIGUSR2)
 		receive += 1;
-	idx++;
-	if (idx == 8)
+	sendedBit++;
+	if (sendedBit == 8)
 	{
 		ft_putchar_fd(receive, 1);
 		receive = 0;
-		idx = 0;
+		sendedBit = 0;
 	}
 	return ;
 }

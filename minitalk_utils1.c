@@ -12,16 +12,14 @@
 
 #include "minitalk.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *s)
 {
-	size_t	index;
+	size_t	i;
 
-	index = 0;
-	while (str[index] != '\0')
-	{
-		index++;
-	}
-	return (index);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
 
 void	ft_putchar_fd(char c, int fd)
@@ -34,9 +32,7 @@ void	ft_putchar_fd(char c, int fd)
 void	ft_putnbr_fd(int n, int fd)
 {
 	if (n == -2147483648)
-	{
 		write(fd, "-2147483648", 11);
-	}
 	else if (n < 0)
 	{
 		write(fd, "-", 1);
