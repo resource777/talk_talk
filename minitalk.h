@@ -9,7 +9,6 @@
 /*   Updated: 2022/03/06 19:35:22 by jaewonki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef MINITALK_H
 # define MINITALK_H
 
@@ -29,5 +28,6 @@ void	decimal_to_bin(int pid, char message);
 void	binary_to_decimal(int binary, int pid);
 void	serverhandler(int signum, siginfo_t *siginfo, void *context);
 int		ft_atoi(char const *str);
-
-#endif
+void	formatWord(char word, int serverPID);
+void	sendSignal(int sig, int serverPID);
+void	signalHandler(int sigNum);
