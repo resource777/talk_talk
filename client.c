@@ -6,90 +6,55 @@
 /*   By: jaewonki <jaewonki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:34:20 by jaewonki          #+#    #+#             */
-/*   Updated: 2022/03/06 19:34:20 by jaewonki         ###   ########.fr       */
+/*   Updated: 2022/03/13 19:14:56 by jaewonki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-size_t	g_charnum = 0;
-
-void	error_print(int fd, char *str)
+int	main(int argc, char *argv[])
 {
-	ft_putstr_fd(str, fd);
-	exit(0);
-}
-
-void	decimal_to_bin(int pid, char message)
-{
-	int	result;
+	int	serverPID;
+	int	len;
 	int	i;
 
-	result = 0;
-	i = 7;
-	while (i >= 0)
+	if (argc != 3)
+		return (0);
+	serverPID = ft_atoi(argv[1]);
+	if (!(serverPID > 100 && serverPID < 100000))
+		return (0);
+	i = 0;
+	len = ft_strlen(argv[2]);
+	while (i < len)
 	{
-		result = message >> i & 1;
-		if (result == 0)
-		{
-			if (kill(pid, SIGUSR1) == -1)
-				error_print(2, "failed to send message\n");
-		}
-		else if (result == 1)
-		{
-			if (kill(pid, SIGUSR2) == -1)
-				error_print(2, "failed to send message\n");
-		}
-		i--;
-		usleep(100);
+		formatWord(argv[2][i], serverPID);
+		i++;
 	}
+	return (0);
 }
 
-void	send_message(int pid, char *message)
+void	formatWord(char word, int serverPID)
 {
-	int	index;
+	unsigned char	num;
+	int				idx;
 
-	index = 0;
-	while (message[index] != '\0')
+	idx = 0;
+	num = 0x80;
+	while (idx < 8)
 	{
-		decimal_to_bin(pid, message[index]);
-		index++;
+		sendSignal(word & num, serverPID);
+		num >>= 1;
+		idx++;
 	}
 	return ;
 }
 
-void	clienthandler(int signum, siginfo_t *siginfo, void *context)
+void	sendSignal(int sig, int serverPID)
 {
-	(void)signum;
-	(void)siginfo;
-	(void)context;
-	g_charnum++;
-}
-
-int	main(int argc, char **argv)
-{
-	struct sigaction	catch;
-
-	g_charnum = 0;
-	catch.sa_flags = SA_SIGINFO;
-	catch.sa_sigaction = clienthandler;
-	if (sigaction(SIGUSR1, &catch, NULL) == -1)
-		exit (1);
-	if (sigaction(SIGUSR2, &catch, NULL) == -1)
-		exit (1);
-	if (argc != 3)
-		error_print(2, "invalid arguement number\n");
+	if (sig)
+		kill(serverPID, SIGUSR2);
 	else
-	{
-		send_message(ft_atoi(argv[1]), argv[2]);
-		usleep(100);
-		if (g_charnum != ft_strlen(argv[2]))
-		{
-			write(1, "receive error\n", 15);
-			return (1);
-		}
-		else
-			write(1, "message received\n", 18);
-	}
-	return (1);
+		kill(serverPID, SIGUSR1);
+	usleep(100);
+	return ;
 }
