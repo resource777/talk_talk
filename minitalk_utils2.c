@@ -20,7 +20,7 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-void	ft_deletespace(char const *s, int *i)
+void	ft_delspace(char const *s, int *i)
 {
 	while (ft_isspace(s[*i]))
 		(*i)++;
@@ -36,7 +36,7 @@ int	ft_atoi(char const *s)
 	res = 0;
 	i = 0;
 	minus = 1;
-	ft_deletespace(s, &i);
+	ft_delspace(s, &i);
 	if (s[i] == '-')
 	{
 		minus = -1;

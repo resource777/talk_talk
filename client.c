@@ -12,30 +12,6 @@
 
 #include "minitalk.h"
 
-int	main(int argc, char *argv[])
-{
-	int	serverPID;
-	int	len;
-	int	i;
-
-	if (argc != 3)
-	{
-		ft_putstr_fd("Usage : ./client [serverPID] [string]\n", 1);
-		return (0);
-	}
-	serverPID = ft_atoi(argv[1]);
-	if (!(serverPID > 100 && serverPID < 100000))
-		return (0);
-	i = 0;
-	len = ft_strlen(argv[2]);
-	while (i < len)
-	{
-		formatWord(argv[2][i], serverPID);
-		i++;
-	}
-	return (0);
-}
-
 void	formatWord(char word, int serverPID)
 {
 	unsigned char	num;
@@ -60,4 +36,28 @@ void	sendSignal(int bit, int serverPID)
 		kill(serverPID, SIGUSR1);
 	usleep(100);
 	return ;
+}
+
+int	main(int argc, char *argv[])
+{
+	int	serverPID;
+	int	len;
+	int	i;
+
+	if (argc != 3)
+	{
+		ft_putstr_fd("Usage : ./client [serverPID] [string]\n", 1);
+		return (0);
+	}
+	serverPID = ft_atoi(argv[1]);
+	if (!(serverPID > 100 && serverPID < 100000))
+		return (0);
+	i = 0;
+	len = ft_strlen(argv[2]);
+	while (i < len)
+	{
+		formatWord(argv[2][i], serverPID);
+		i++;
+	}
+	return (0);
 }

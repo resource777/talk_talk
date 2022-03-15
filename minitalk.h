@@ -12,7 +12,6 @@
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include <stdio.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -22,13 +21,11 @@ size_t	ft_strlen(const char *str);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
-
-void	send_message(int pid, char *message);
-void	decimal_to_bin(int pid, char message);
-void	binary_to_decimal(int binary, int pid);
 int		ft_atoi(char const *str);
+
 void	formatWord(char word, int serverPID);
 void	sendSignal(int sig, int serverPID);
-void	signalHandler(int sigNum);
+
+void	handler(int sigNum);
 
 #endif
