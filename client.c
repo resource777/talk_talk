@@ -6,7 +6,7 @@
 /*   By: jaewonki <jaewonki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:34:20 by jaewonki          #+#    #+#             */
-/*   Updated: 2022/03/13 19:14:56 by jaewonki         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:32:43 by jaewonki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ int	main(int argc, char *argv[])
 	}
 	serverPID = ft_atoi(argv[1]);
 	if (!(serverPID > 100 && serverPID < 100000))
+	{
+		ft_putstr_fd("Invalid serverPID\n", 1);
 		return (0);
+	}
 	i = 0;
 	len = ft_strlen(argv[2]);
 	while (i < len)
@@ -59,5 +62,6 @@ int	main(int argc, char *argv[])
 		formatWord(argv[2][i], serverPID);
 		i++;
 	}
+	formatWord('\n', serverPID);
 	return (0);
 }
